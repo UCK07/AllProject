@@ -2,7 +2,7 @@
 {
     public class EndPoints
     {
-        
+         
 
         public static string MovieList = "MovieList";
         public static string MovieById = "MovieListById/{Id}";
