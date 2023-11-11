@@ -1,0 +1,52 @@
+﻿@using AllProject.Shared.Dto;
+@using Blazored.LocalStorage;
+@using Blazored.Modal;
+@using CurrieTechnologies.Razor.SweetAlert2;
+<div class="form-group">
+    <label for="exampleInputPassword1">Kodu Giriniz</label>
+    <input @bind="@userCode.Code" type="text" class="form-control" id="exampleInputPassword1" placeholder="Kod Giriniz">
+</div>
+
+<button @onclick="GetCodeCheck" class="btn btn-primary">Gonder</button>
+
+
+@code {
+    [Inject] protected UserService _userService { get; set; }
+    [Inject] protected ILocalStorageService _localStorageService { get; set; }
+    [CascadingParameter] BlazoredModalInstance _modal { get; set; }
+    [Inject] protected SweetAlertService _alertMessage { get; set; }
+
+
+    [Parameter] public EventCallback<bool> ModalCloseCallBack { get; set; }
+    UserCodeCheck userCode = new();
+
+    private async Task GetCodeCheck()
+    {
+
+        try
+        {
+
+            userCode.Email = await _localStorageService.GetItemAsync<string>("Email");
+            var checkCode = await _userService.UserCodeCheck(userCode);
+            if (checkCode == true)
+            {
+
+                await CloseModal();
+                await ModalCloseCallBack.InvokeAsync(true);
+            }
+            else
+            {
+                await _alertMessage.FireAsync("Girmis Oldugunuz kod yanlis lutfen kontrol ediniz.");
+            }
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            await _alertMessage.FireAsync(e.Message);
+        }
+
+    }
+
+    private async Task CloseModal() { await _modal.CloseAsync(); }
+}

@@ -1,0 +1,59 @@
+﻿@page "/pharmacy-page"
+
+<hr />
+<h1>Şehir Seçiniz</h1>
+<hr />
+
+
+<select @onchange="CityChangeEvent" class="form-select" aria-label="Default select example">
+    <option selected>Open this select menu</option>
+    <option value="Antalya">Antalya</option>
+    <option value="İstanbul">İstanbul</option>
+    <option value="Ankara">Ankara</option>
+    <option value="Adana">Adana</option>
+    <option value="İzmir">İzmir</option>
+    <option value="Aydın">Aydın</option>
+    <option value="Trabzon">Trabzon</option>
+    <option value="Hakkari">Hakkari</option>
+    <option value="Rize">Rize</option>
+    <option value="Iğdır">Iğdır</option>
+    <option value="Burdur">Burdur</option>
+    <option value="Mersin">Mersin</option>
+    <option value="Nevşehir">Nevşehir</option>
+    <option value="Batman">Batman</option>
+    <option value="Balıkesir">Balıkesir</option>
+</select>
+
+
+@if (PharmacyList.result != null)
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th scope="col">Name</th>
+                <th scope="col">İl</th>
+                <th scope="col">Adresi</th>
+                <th scope="col">Telefon Numarası</th>
+                <th scope="col">Konumu</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in PharmacyList.result)
+            {
+                <tr>
+
+                    <td>@item.name</td>
+                    <td>@item.dist</td>
+                    <td>@item.address</td>
+                    <td>@item.phone</td>
+                    <td>@item.loc</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+}

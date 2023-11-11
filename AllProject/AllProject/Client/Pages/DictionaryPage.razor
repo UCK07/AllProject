@@ -1,0 +1,51 @@
+﻿@page "/dictionary-page"
+
+<h1>Sözlük</h1>
+
+<div>
+	<input type="search" @onchange="WordChangeEvent" class="form-select" aria-label="Default select example" placeholder="Kelime Giriniz" />
+	<button type="submit" value="@WordName">Gönderr</button>
+</div>
+
+
+@if (DictionaryList.result != null)
+{
+
+	<table class="table">
+		<thead>
+			<tr>
+
+				<th scope="col">anlam</th>
+				<th scope="col">ornek</th>
+				<th scope="col">ozellik</th>
+				<th scope="col">kelime_say</th>
+				<th scope="col">kelime</th>
+				<th scope="col">ornek</th>
+				<th scope="col">yazar</th>
+				<th scope="col">tamAd</th>
+				<th scope="col">ksaAd</th>
+				<th scope="col">madde</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in DictionaryList.result)
+			{
+				<tr>
+
+					<td>@item.anlam</td>
+					<td>@item.ornek</td>
+					<td>@item.ozellik</td>
+					<td>@item.kelime_say</td>
+					<td>@item.kelime</td>
+					<td>@item.yazar</td>
+					<td>@item.tamAd</td>
+					<td>@item.ksaAd</td>
+					<td>@item.madde</td>
+				</tr>
+			}
+
+		</tbody>
+	</table>
+
+}

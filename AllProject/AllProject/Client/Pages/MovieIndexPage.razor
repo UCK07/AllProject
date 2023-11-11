@@ -1,0 +1,61 @@
+﻿@page "/"
+
+
+<div id="wrapper">
+	<div id="page-wrapper">
+		<div id="page-inner">
+			<div class="row">
+				<div class="text-center">
+					<h1>Hoşgeldiniz</h1>
+					<hr />
+				</div>
+			</div>
+			<button @onclick="()=>OpenModal(new Movie(),false)" class="btn btn-danger">Movie Ekle</button>
+
+			<div class="text-center">
+				<h1>>>>>Search Movies>>>></h1>
+			</div>
+
+			<input type="search" @bind-value="SearchMovie" @bind-value:event="oninput" @onchange="@GetSearchMovie" class="form-control me-md-1 semail" placeholder="Bir kac kelime giriniz" />
+
+			<hr />
+        </div>
+	</div>
+</div>
+
+
+			@if (Movies != null)
+			{
+				<table class="table">
+					<thead>
+						<tr>
+
+							<th scope="col">Movie Name</th>
+							<th scope="col">Movie Year</th>
+							<th scope="col">Image</th>
+							<th scope="col">Created</th
+							
+
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Movies)
+						{
+							<tr>
+
+								<td @onclick="()=>OpenModal(item,true)"> @item.MovieName</td>
+								<td>@item.MovieYear</td>
+								<td>
+									<img @onclick="()=>OpenImageModal(item,true)" class="movieBiggerImage" src="@item.CloudUrl">
+								</td>
+								<td>@item.Created</td>
+						
+								
+
+							</tr>
+						}
+
+					</tbody>
+				</table>
+			}
+

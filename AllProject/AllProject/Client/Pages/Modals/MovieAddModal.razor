@@ -1,0 +1,22 @@
+﻿<div class="form-group">
+    <label for="exampleInputEmail1">Title</label>
+    <input @bind="movie.MovieName" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    <small id="emailHelp" class="form-text text-muted">Movie Yazınız</small>
+</div>
+<div class="form-group">
+    <label for="exampleFormControlTextarea1">Yılını Yazınız</label>
+    <textarea @bind="movie.MovieYear" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+</div>
+
+<div class="form-group">
+    @if (MovieStatus == true)
+    {
+        <img width="150px" height="150px" class="bloglistImage" src="@movie.CloudUrl" />
+    }
+    else
+    {
+        <InputFile id="fileavatar" OnChange="(e) => ImageUpload(e)" accept="image/jpeg, image/png, image/jpg" />
+    }
+
+</div>
+<button @onclick="MovieAdd" class="btn btn-primary">Kaydet</button>

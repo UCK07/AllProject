@@ -1,0 +1,109 @@
+﻿@page "/login-page"
+@using Blazored.LocalStorage;
+@using Blazored.Modal.Services;
+@using Blazored.Modal;
+@using CurrieTechnologies.Razor.SweetAlert2;
+
+
+<div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input @bind="@user.EmailAddress" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email Giriniz">
+    <small id="emailHelp" class="form-text text-muted">Örnek ==>> TuranKaya@hotmail.com</small>
+</div>
+<div class="form-group">
+    <label for="exampleInputPassword1">Parola</label>
+    <input @bind="@user.Password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Parola">
+</div>
+<div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Bakacazzz Sonuca</label>
+</div>
+<button @onclick="UserLogin" class="btn btn-primary">Giris</button>
+<button @onclick="OpenPasswordRememberModal" class="btn btn-danger">Parola Hatirlat</button>
+@code {
+
+    [Inject] protected ILocalStorageService _localStorage { get; set; }
+    [Inject]
+    protected NavigationManager _navigation { get; set; }
+    [Inject]
+    protected UserService _userService { get; set; }
+    [Inject] protected SweetAlertService AlertMessage { get; set; }
+    [CascadingParameter] public IModalService _modal { get; set; } = default!;
+    User user = new();
+
+
+    private async Task UserLogin()
+    {
+        try
+        {
+            var checkUser = await _userService.UserLogin(user);
+            if (checkUser.EmailAddress == null)
+            {
+                await AlertMessage.FireAsync("Hata", "Kullanici veya Parola Hatali", SweetAlertIcon.Error);
+            }
+            else
+            {
+                await _localStorage.SetItemAsStringAsync("Email", checkUser.EmailAddress);
+                await _localStorage.SetItemAsync<bool>("IsLogin", true);
+                await _localStorage.SetItemAsync<string>("City", checkUser.City);
+
+
+
+                await OpenCodeModal();
+
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            await AlertMessage.FireAsync("Hata", e.Message, SweetAlertIcon.Error);
+        }
+
+    }
+
+    private async Task OpenCodeModal()
+    {
+
+
+        var parameters = new ModalParameters();
+        var options = new ModalOptions()
+            {
+                DisableBackgroundCancel = true,
+                HideHeader = false,
+                Size = ModalSize.Automatic,
+                HideCloseButton = false,
+                AnimationType = ModalAnimationType.FadeInOut
+            };
+
+
+        parameters.Add(nameof(CodeModal.ModalCloseCallBack), EventCallback.Factory.Create<bool>(this, ModalCallBackEvent));
+        _modal.Show<CodeModal>("", parameters, options);
+    }
+
+    private Task OpenPasswordRememberModal()
+    {
+
+
+        var parameters = new ModalParameters();
+        var options = new ModalOptions()
+            {
+                DisableBackgroundCancel = true,
+                HideHeader = false,
+                Size = ModalSize.Medium,
+                HideCloseButton = false,
+                AnimationType = ModalAnimationType.FadeInOut
+            };
+
+        _modal.Show<PasswordRememberModal>("", parameters, options);
+        return Task.CompletedTask;
+    }
+    private Task ModalCallBackEvent(bool value)
+    {
+        if (value)
+        {
+            _navigation.NavigateTo("/");
+        }
+        return Task.CompletedTask;
+    }
+
+}
