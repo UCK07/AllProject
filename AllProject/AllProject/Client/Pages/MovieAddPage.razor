@@ -1,0 +1,24 @@
+﻿@page "/movie-add"
+
+
+
+<div class="main-wrapper">
+    <div class="mb-3">
+        <div class="form-group">
+            <label for="title">Movie Name</label>
+            <input @bind-value="@movie.MovieName" type="text" class="form-control" id="title" placeholder="Movie İsmi Giriniz" required>
+        </div>
+
+        <div class="form-group">
+            <label for="content">Movie Year</label>
+            <input @bind-value="@movie.MovieYear" type="number" class="form-control" id="Yıl" placeholder="Movie Yılı Giriniz" required>
+        </div>
+        <InputFile id="fileavatar" OnChange="(e) => ImageUpload(e)" accept="image/jpeg, image/png, image/jpg" />
+
+        <br />
+        <button @onclick="@MovieAdd" class="btn btn-danger">Gönder</button>
+        
+
+
+    </div>
+</div>

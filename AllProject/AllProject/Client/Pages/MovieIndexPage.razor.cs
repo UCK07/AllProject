@@ -10,7 +10,7 @@ namespace AllProject.Client.Pages
 {
 	public partial class MovieIndexPage
 	{
-		[Inject] protected MovieService _adminMovieService { get; set; }
+		[Inject] protected MovieService _movieService { get; set; }
 		IEnumerable<Movie> Movies;
 		string SearchMovie;
 		[CascadingParameter] public IModalService _modal { get; set; } = default!;
@@ -21,7 +21,7 @@ namespace AllProject.Client.Pages
 
 		private async Task GetMovieList()
 		{
-			var response = await _adminMovieService.GetMovieList();
+			var response = await _movieService.GetMovieList();
 			if (response != null)
 			{
 				Movies = response.OrderByDescending(x => x.Id);

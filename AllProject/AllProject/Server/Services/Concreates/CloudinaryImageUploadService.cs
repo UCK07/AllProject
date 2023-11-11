@@ -9,6 +9,10 @@ namespace AllProject.Server.Services.Concreates
     {
         protected readonly IConfiguration _configuration;
 
+        public CloudinaryImageUploadService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public async Task<string> Upload(string Id, string ImageUrl)
         {
             Account account = new Account(

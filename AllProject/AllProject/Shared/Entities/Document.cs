@@ -8,7 +8,7 @@ namespace AllProject.Shared.Entities
 {
     public abstract class Document : IDocument
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
-        public DateTime? Created { get; set; }
-    }
+		public string Id { get; set; } = Guid.NewGuid().ToString();
+		public DateTime Created { get; set; } = DateTime.Now;
+	}
 }

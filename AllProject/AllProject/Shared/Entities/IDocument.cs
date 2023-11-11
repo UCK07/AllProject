@@ -13,7 +13,7 @@ namespace AllProject.Shared.Entities
         [BsonId]
         [BsonRepresentation(BsonType.String)]
         string Id { get; set; }
-        DateTime? Created { get; set; }
+        DateTime Created { get; set; }
 
     }
 }
